@@ -1,5 +1,5 @@
 ---
-title: "Aplikasi Pertama dari React JS"
+title: "Aplikasi React Pertama"
 description: "Catatan belajarku ketika membuat todolist pertama kali dengan React js"
 date: "Mar 21 2024"
 ---
