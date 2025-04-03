@@ -41,6 +41,8 @@ Ketika membuat todolist saya mempelajari beberapa hal baru :
     npx tailwindcss init -p
     ```
 - Fungsi Array map(), filter(), findIndex(), find() di Javascript
+
+    ***map()*** di gunakan didalam jsx untuk merender data array
     ```jsx
     {
         items.length > 0 ? (
@@ -60,6 +62,9 @@ Ketika membuat todolist saya mempelajari beberapa hal baru :
         );
     }
     ```
+
+    ***findIndex()*** di gunakan mencari index dari sebuah array kemudian mereplace isi dari data
+    tersebut, jadi find mengembalikan number index dari data tersebut
     ```javascript
       const updatedData = {
         ...edit,
@@ -69,12 +74,20 @@ Ketika membuat todolist saya mempelajari beberapa hal baru :
       const findIndex = updatedAllData.findIndex((item) => item.id === edit.id);
       updatedAllData[findIndex] = updatedData;
     ```
+
+    ***filter()*** di gunakan memfilter data dengan logic tertentu, disini digunakan untuk mengapus
+    data dari array
     ```javascript
     const handleDelete = async (id) => {
         const updatedItems = items.filter((item) => item.id !== id);
         setItems(updatedItems);
     };
     ```
+    ***map()*** di gunakan untuk iterasi isi dari sebuah array kemudian mencocokan id yang cocok
+    dan megubah isi datanya
+
+    ***find()*** di gunakan mencocokan id yang cocok di dalam data array, find() mengembalikan data
+    beruba object itu sendiri jika di temukan, jika tidak akan mengembalikan null
     ```javascript
     const handleCheck = async (id) => {
         // Checkbox button

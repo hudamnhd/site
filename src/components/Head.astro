@@ -82,6 +82,114 @@ const { title, description, image = "/nano.png" } = Astro.props;
     const backToPrev = document.getElementById("back-to-prev");
     backToPrev?.addEventListener("click", () => window.history.back());
 
+    const themeButton = document.getElementById("theme-button");
+
+    function setTheme(theme) {
+      localStorage.setItem("theme", theme);
+
+      switch (theme) {
+        case "system":
+            toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
+          break;
+        case "light":
+            toggleTheme(false);
+          break;
+        case "dark":
+            toggleTheme(true);
+          break;
+      }
+
+      updateButtonText(theme);
+    }
+
+    // Fungsi untuk memperbarui teks tombol sesuai tema aktif
+    function updateButtonText(theme) {
+      switch (theme) {
+        case "system":
+          themeButton.setAttribute("aria-label", "System theme");
+          themeButton.setAttribute("title", "System theme");
+          themeButton.innerHTML = `<svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="group-hover:stroke-black group-hover:dark:stroke-white transition-colors duration-300 ease-in-out"
+          >
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>`;
+          break;
+        case "light":
+          themeButton.setAttribute("aria-label", "light theme");
+          themeButton.setAttribute("title", "light theme");
+          themeButton.innerHTML = `<svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="group-hover:stroke-black group-hover:dark:stroke-white transition-colors duration-300 ease-in-out"
+          >
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>`;
+          break;
+        case "dark":
+          themeButton.setAttribute("aria-label", "Dark theme");
+          themeButton.setAttribute("title", "Dark theme");
+          themeButton.innerHTML = `<svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="group-hover:stroke-black group-hover:dark:stroke-white transition-colors duration-300 ease-in-out"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>`;
+          break;
+      }
+    }
+
+    // Menambahkan event listener untuk mengganti tema saat tombol diklik
+    themeButton?.addEventListener("click", () => {
+      let nextTheme;
+      switch (localStorage.getItem("theme") || "system") {
+        case "system":
+          nextTheme = "light";
+          break;
+        case "light":
+          nextTheme = "dark";
+          break;
+        case "dark":
+          nextTheme = "system";
+          break;
+      }
+      setTheme(nextTheme);
+    });
+
+
     const lightThemeButton = document.getElementById("light-theme-button");
     lightThemeButton?.addEventListener("click", () => {
       localStorage.setItem("theme", "light");
@@ -109,6 +217,7 @@ const { title, description, image = "/nano.png" } = Astro.props;
     );
 
     document.addEventListener("scroll", onScroll);
+    updateButtonText(localStorage.getItem("theme") || "system")
   }
 
   function animate() {
