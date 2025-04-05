@@ -2,13 +2,13 @@
 import type { CollectionEntry } from "astro:content";
 
 type Props = {
-  entry: CollectionEntry<"blog"> | CollectionEntry<"projects">;
+  entry: CollectionEntry<"projects">;
 }
 
 const { entry } = Astro.props;
 ---
 
-<a href={`/${entry.collection}/${entry.slug}`} class="relative group flex flex-nowrap py-3 px-4 pr-10 rounded-lg border border-border hover:bg-accent transition-colors duration-300 ease-in-out">
+<a data-astro-prefetch href={`/${entry.collection}/${entry.id}`} class="relative group flex flex-nowrap py-3 px-4 pr-10 rounded-lg border border-border hover:bg-accent transition-colors duration-300 ease-in-out">
   <div class="flex flex-col flex-1 truncate">
     <div class="font-semibold">
       {entry.data.title}

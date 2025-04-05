@@ -1,3 +1,3 @@
-My Site
+Personal Site
 
-**This Personal site built with [Astro Nano](https://github.com/markhorn-dev/astro-nano)**
+**This Personal site built with [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus)**

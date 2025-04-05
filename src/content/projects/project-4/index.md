@@ -6,13 +6,14 @@ demoURL: "https://kiat.netlify.app"
 repoURL: "https://github.com/hudamnhd/kiat"
 ---
 
-![Kiat App](/kiat-app.png)
+![Kiat App](./kiat-app.png)
 
+## Apa itu Kiat Web ?
 Kiat Web adalah aplikasi baca quran untuk sehari-hari (terutama untuk diri sendiri).
 
 Project ini dibuat dengan pustaka react vite dan di optimalkan supaya bisa mendukung fitur offline.
 
-## 📋 Fitur
+### Fitur Aplikasi
 
 - ✅ Cepat dan ringan
 - ✅ 3 tema (terang, sepia, gelap)
@@ -24,12 +25,12 @@ Project ini dibuat dengan pustaka react vite dan di optimalkan supaya bisa mendu
 - ✅ Kalkulator sederhana untuk memudahan penjumlahan
 
 
-## 📄 Links
+### Links Aplikasi
 
 - Repository: [github.com/hudamnhd/kiat](https://github.com/hudamnhd/kiat)
 - Website: [kiat.netlify.app](https://kiat.netlify.app)
 
-## 🚀 Stack
+### Stack
 
 - React: [https://react.dev](https://react.dev)
 - React Router: [https://reactrouter.com](https://reactrouter.com)

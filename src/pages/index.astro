@@ -1,142 +1,138 @@
 ---
-import { getCollection } from "astro:content";
-import Container from "@components/Container.astro";
-import PageLayout from "@layouts/PageLayout.astro";
-import ArrowCard from "@components/ArrowCard.astro";
-import Link from "@components/Link.astro";
-import { dateRange } from "@lib/utils";
-import { SITE, HOME, SOCIALS } from "@consts";
+import { type CollectionEntry, getCollection, render} from "astro:content";
+import SocialList from "@/components/SocialList.astro";
+import PostPreview from "@/components/blog/PostPreview.astro";
+import Note from "@/components/note/Note.astro";
+import { getAllPosts } from "@/data/post";
+import PageLayout from "@/layouts/Base.astro";
+import ArrowCard from "@/components/ArrowCard.astro";
+import { dateRange, collectionDateSort } from "@/utils/date";
 
-const blog = (await getCollection("blog"))
-  .filter(post => !post.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0,SITE.NUM_POSTS_ON_HOMEPAGE);
+// Posts
+const MAX_POSTS = 5;
+const allPosts = await getAllPosts();
+const allPostsByDate = allPosts
+	.sort(collectionDateSort)
+	.slice(0, MAX_POSTS) as CollectionEntry<"post">[];
+
+// Notes
+const MAX_NOTES = 5;
+const allNotes = await getCollection("note");
+const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 
 const projects = (await getCollection("projects"))
   .filter(project => !project.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0,SITE.NUM_PROJECTS_ON_HOMEPAGE);
+  .slice(0, 3);
 
 const allwork = (await getCollection("work"))
   .sort((a, b) => new Date(b.data.dateStart).valueOf() - new Date(a.data.dateStart).valueOf())
-  .slice(0,SITE.NUM_WORKS_ON_HOMEPAGE);
+  .slice(0, 2);
 
 const work = await Promise.all(
   allwork.map(async (item) => {
-    const { Content } = await item.render();
+    const { Content } = await render(item);
     return { ...item, Content };
   })
 );
-
 ---
 
-<PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
-  <Container>
-    <h4 class="animate font-semibold">
+<PageLayout meta={{ title: "Home" }}>
+	<section>
+		<h1 class="title mb-6">
       Hi, I'm Huda <span class="text-xl">👋🏻</span>
-    </h4>
-    <div class="space-y-16">
-      <section>
-        <article class="space-y-4">
-          <p class="animate">
-          I'm a front-end web developer who continuously learns and adapts to the latest technologies.
-          I'm proficient in TypeScript, React, and Tailwind CSS for building efficient and intuitive web applications and websites.
-          Additionally, I have a strong foundation in HTML, CSS, and Javascript.
-          </p>
-        </article>
-      </section>
-
-      <section class="animate space-y-6">
-        <div class="flex flex-wrap gap-y-2 items-center justify-between">
-          <h5 class="font-semibold">
-            Latest posts
-          </h5>
-          <Link href="/blog">
-            See all posts
-          </Link>
-        </div>
-        <ul class="flex flex-col gap-4">
-          {blog.map(post => (
-            <li>
-              <ArrowCard entry={post} />
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section class="animate space-y-6">
-        <div class="flex flex-wrap gap-y-2 items-center justify-between">
-          <h5 class="font-semibold">
-            Work Experience
-          </h5>
-          <Link href="/work">
-            See all work
-          </Link>
-        </div>
-        <ul class="flex flex-col space-y-4">
-          {work.map(entry => (
-            <li>
-              <div class="text-sm opacity-75">
-                {dateRange(entry.data.dateStart, entry.data.dateEnd)}
-              </div>
-              <div class="font-semibold">
-                {entry.data.company}
-              </div>
-              <div class="text-sm opacity-75">
-                {entry.data.role}
-              </div>
-              <article>
-                <entry.Content />
-              </article>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section class="animate space-y-6">
-        <div class="flex flex-wrap gap-y-2 items-center justify-between">
-          <h5 class="font-semibold">
-            Recent projects
-          </h5>
-          <Link href="/projects">
-            See all projects
-          </Link>
-        </div>
-        <ul class="flex flex-col gap-4">
-          {projects.map(project => (
-            <li>
-              <ArrowCard entry={project} />
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section class="animate space-y-4">
-        <h5 class="font-semibold">
-          Let's Connect
-        </h5>
-        <article>
-          <p>
-            If you want to get in touch with me about something or just to say hi,
-            reach out on social media or send me an email.
-          </p>
-        </article>
-        <ul class="flex flex-wrap gap-2">
-          {SOCIALS.map(SOCIAL => (
-            <li class="flex gap-x-2 text-nowrap text-muted-foreground">
-              <Link href={SOCIAL.HREF} external aria-label={`${SITE.NAME} on ${SOCIAL.NAME}`} >
-                {SOCIAL.NAME}
-              </Link>
-              {"/"}
-            </li>
-          ))}
-          <li class="line-clamp-1">
-            <Link href={`mailto:${SITE.EMAIL}`} aria-label={`Email ${SITE.NAME}`}>
-              {SITE.EMAIL}
-            </Link>
-          </li>
-        </ul>
-      </section>
+    </h1>
+		<p class="mb-4 prose">
+      I'm a front-end web developer who continuously learns and adapts to the latest technologies.
+      I'm proficient in TypeScript, React, and Tailwind CSS for building efficient and intuitive web applications and websites.
+      Additionally, I have a strong foundation in HTML, CSS, and Javascript.
+		</p>
+	</section>
+	<section class="mt-16">
+    <div class="flex flex-wrap gap-y-2 items-center justify-between mb-4">
+      <h2 class="title text-xl">Posts</h2>
+      <a href="/posts" class="text-foreground/80 hover:text-foreground">
+        See all posts
+      </a>
     </div>
-  </Container>
+		<ul class="divide-y" role="list">
+			{
+				allPostsByDate.map((p) => (
+          <li>
+						<PostPreview post={p} />
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+    <section class="mt-16 space-y-6">
+      <div class="flex flex-wrap gap-y-2 items-center justify-between">
+        <h2 class="title text-xl">Work Experience</h2>
+        <a href="/work" class="text-foreground/80 hover:text-foreground">
+          See all work
+        </a>
+      </div>
+      <ul class="flex flex-col space-y-4">
+        {work.map(entry => (
+          <li class="prose dark:prose-invert">
+            <div class="text-sm opacity-75">
+              {dateRange(entry.data.dateStart, entry.data.dateEnd)}
+            </div>
+            <div class="font-semibold">
+              {entry.data.company}
+            </div>
+            <div class="text-sm opacity-75 font-medium">
+              {entry.data.role}
+            </div>
+            <article>
+              <entry.Content />
+            </article>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mt-16 space-y-6">
+      <div class="flex flex-wrap gap-y-2 items-center justify-between">
+        <h2 class="title text-xl">Recent projects</h2>
+        <a href="/projects" class="text-foreground/80 hover:text-foreground">
+          See all projects
+        </a>
+      </div>
+      <ul class="flex flex-col gap-4">
+        {projects.map(project => (
+          <li>
+            <ArrowCard entry={project} />
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mt-16 space-y-4">
+      <h2 class="title text-xl">Let's Connect</h2>
+      <article>
+        <p>
+          If you want to get in touch with me about something or just to say hi,
+          reach out on social media or send me an email.
+        </p>
+      </article>
+		<SocialList />
+    </section>
+	<!--{
+		latestNotes.length > 0 && (
+			<section class="mt-16">
+				<h2 class="title mb-6 text-xl">
+					<a href="/notes/">Notes</a>
+				</h2>
+				<ul class="space-y-4" role="list">
+					{latestNotes.map((note) => (
+						<li>
+							<Note note={note} as="h3" isPreview />
+						</li>
+					))}
+				</ul>
+			</section>
+		)
+	}-->
 </PageLayout>

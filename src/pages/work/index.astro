@@ -1,8 +1,8 @@
 ---
-import { getCollection } from "astro:content";
-import PageLayout from "@layouts/PageLayout.astro";
-import Container from "@components/Container.astro";
-import { dateRange } from "@lib/utils";
+import { getCollection, render } from "astro:content";
+import PageLayout from "@/layouts/Base.astro";
+import { dateRange } from "@/utils/date";
+import { Icon } from "astro-icon/components";
 import { WORK } from "@consts";
 
 const collection = (await getCollection("work"))
@@ -10,42 +10,42 @@ const collection = (await getCollection("work"))
 
 const work = await Promise.all(
   collection.map(async (item) => {
-    const { Content } = await item.render();
-    return { ...item, Content };
+    const { Content } = await render(item);
+    return { ...item, Content  };
   })
 );
+
+const meta = {
+  title: "Work",
+  description: "Where I have worked and what I have done.",
+};
 ---
 
-<PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
-  <Container>
-    <div class="space-y-10">
-      <div class="animate font-semibold">
-        Work
-      </div>
-      <ul class="flex flex-col space-y-4">
-        { 
-          work.map(entry => (
-            <li class="animate">
-              <div class="text-sm opacity-75">
-                {dateRange(entry.data.dateStart, entry.data.dateEnd)}
-              </div>
-              <div class="font-semibold">
-                {entry.data.company}
-              </div>
-              <div class="text-sm opacity-75">
-                {entry.data.role}
-              </div>
-              <article>
-                <entry.Content />
-              </article>
-            </li>
-          ))
-        }
-      </ul>
-<!-- 
-      <ul class="animate flex flex-col gap-4">
+<PageLayout meta={meta}>
 
-      </ul> -->
-    </div>
-  </Container>
+	<div class="mb-6 flex items-center gap-3">
+		<h1 class="title">Work</h1>
+	</div>
+  <div class="space-y-16">
+    <ul class="mt-5 mb-16">
+      {
+        work.map(entry => (
+          <li class="prose dark:prose-invert">
+            <div class="text-sm opacity-75">
+              {dateRange(entry.data.dateStart, entry.data.dateEnd)}
+            </div>
+            <div class="font-semibold">
+              {entry.data.company}
+            </div>
+            <div class="text-sm opacity-75">
+              {entry.data.role}
+            </div>
+            <article>
+               <entry.Content />
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
 </PageLayout>

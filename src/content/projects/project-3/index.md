@@ -6,8 +6,9 @@ demoURL: "https://xapps-clone.vercel.app"
 repoURL: "https://github.com/hudamnhd/twitter-clone"
 ---
 
-![Twitter Clone](/twitter-clone.png)
+![Twitter Clone](./twitter-clone.png)
 
+## Web Twitter Clone
 Twitter clone ini di buat dengan [T3 Stack](https://create.t3.gg) base Next.js Pages directory.
 
 Karena PlanetScale sudah tidak menyediakan layanan database gratis, jadi Project ini hanya
@@ -17,7 +18,7 @@ Didalam repository project ini memiliki 2 Branch:
 - Branch main yaitu kode baru yang saya tulis ulang dengan Framework React Router v7.
 - Branch nextjs yaitu kode lama yang menggukan beberapa Teknologi yang disebutkan dibawah.
 
-## 📋 Fitur
+### Fitur
 
 - ✅ Authentikasi dengan google
 - ✅ Interaktif postingan ( like, comment, and detail post by id )
@@ -26,12 +27,12 @@ Didalam repository project ini memiliki 2 Branch:
 - ✅ Responsive
 
 
-## 📄 Links
+### Links
 
 - Repository: [github.com/hudamnhd/twitter-clone](https://github.com/hudamnhd/twitter-clone)
 - Website: [xapps-clone.vercel.app](https://xapps-clone.vercel.app)
 
-## 🚀 Teknologi
+### Stack
 
 1. **Next.js**: Next.js memiliki fitur SSR, routing yang memudahan ketika proses development .
 
