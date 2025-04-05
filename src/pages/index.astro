@@ -75,7 +75,7 @@ const work = await Promise.all(
       </div>
       <ul class="flex flex-col space-y-4">
         {work.map(entry => (
-          <li class="prose dark:prose-invert">
+          <li class="prose text-foreground dark:prose-invert">
             <div class="text-sm opacity-75">
               {dateRange(entry.data.dateStart, entry.data.dateEnd)}
             </div>

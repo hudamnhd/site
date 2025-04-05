@@ -71,7 +71,7 @@
 }
 
 #cactus__search mark {
-	color: var(--foreground);
+	color: #000000;
 	background-color: #a3e635;
 	font-weight: 600;
 }
