@@ -3,25 +3,6 @@ import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
 import "@/styles/global.css";
 
-import "@fontsource/geist-sans/100.css";
-import "@fontsource/geist-sans/200.css";
-import "@fontsource/geist-sans/300.css";
-import "@fontsource/geist-sans/400.css";
-import "@fontsource/geist-sans/500.css";
-import "@fontsource/geist-sans/600.css";
-import "@fontsource/geist-sans/700.css";
-import "@fontsource/geist-sans/800.css";
-import "@fontsource/geist-sans/900.css";
-import "@fontsource/geist-mono/100.css";
-import "@fontsource/geist-mono/200.css";
-import "@fontsource/geist-mono/300.css";
-import "@fontsource/geist-mono/400.css";
-import "@fontsource/geist-mono/500.css";
-import "@fontsource/geist-mono/600.css";
-import "@fontsource/geist-mono/700.css";
-import "@fontsource/geist-mono/800.css";
-import "@fontsource/geist-mono/900.css";
-
 type Props = SiteMeta;
 
 const { articleDate, description, ogImage, title } = Astro.props;
@@ -52,6 +33,9 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 
 {/* Canonical URL */}
 <link href={canonicalURL} rel="canonical" />
+
+{/* Fonts */}
+<link rel="stylesheet" href="/fonts/inter/inter.css">
 
 {/* Primary Meta Tags */}
 <meta content={siteTitle} name="title" />
