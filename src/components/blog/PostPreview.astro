@@ -15,8 +15,22 @@ const { remarkPluginFrontmatter } = await render(post);
 const readingTime: string = remarkPluginFrontmatter.readingTime;
 ---
 
-<a data-astro-prefetch href={`/posts/${post.id}/`} class="relative group flex flex-nowrap justify-between py-3 text-foreground">
-  <div class="flex items-center gap-x-5">
+<a data-astro-prefetch href={`/posts/${post.id}/`} class="relative group flex flex-nowrap justify-between py-3 text-foreground/90 hover:text-foreground duration-300 ">
+  <div>
+    <div class="pt-1 text-xs uppercase font-semibold text-muted-foreground">
+      {formattedDate}
+    </div>
+    <span class="line-clamp-1 font-semibold group-hover:underline duration-300">
+      {post.data.title}
+    </span>
+    <span class="line-clamp-1 text-sm text-foreground/70">
+      {post.data.description}
+    </span>
+    <span class="font-normal capitalize text-xs sm:hidden text-neutral-500">
+      {readingTime}
+    </span>
+  </div>
+  <div class="hidden flex items-center gap-x-5">
     <div class="text-xs uppercase font-bold min-w-[45px] text-muted-foreground group-hover:text-foreground transition-colors duration-300 ease-in-out">
       {formattedDate}
     </div>
