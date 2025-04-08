@@ -1,27 +1,19 @@
 ---
-import { menuLinks, siteConfig } from "@/site.config";
-
-const year = new Date().getFullYear();
+import { siteConfig } from "@/site.config";
+import GitHub from '@/icons/GitHub.astro';
+import X from '@/icons/X.astro';
+import LinkedIn from '@/icons/LinkedIn.astro';
+import Email from '@/icons/Email.astro';
+const today = new Date();
+const PREFIX_NAME = 'hudamnhd'
+import SocialList from "@/components/SocialList.astro";
 ---
 
 <footer
-	class="sm:mx-auto max-w-screen-sm mt-auto flex w-full flex-col items-center justify-center gap-y-2 pt-16 pb-4 text-center align-top font-medium sm:flex-row sm:justify-between text-muted-foreground text-sm sm:text-xs"
+  class="mt-16 pt-10 pb-12 flex text-sm justify-center items-center gap-4"
 >
-	<div class="me-0 sm:me-4">
-		&copy; {siteConfig.author}
-		{year}
-	</div>
-	<nav
-		aria-labelledby="footer_links"
-		class="flex gap-x-2 sm:gap-x-0 sm:divide-x sm:divide-border"
-	>
-		<p id="footer_links" class="sr-only">More on this site</p>
-		{
-			menuLinks.map((link) => (
-				<a class="hover:text-foreground px-2 sm:px-4 py-2 hover:underline sm:py-0" href={link.path}>
-					{link.title}
-				</a>
-			))
-		}
-	</nav>
+  <div class="flex flex-col items-center gap-3">
+    &copy; {today.getFullYear()} {siteConfig.author}. All rights reserved.
+    <SocialList />
+  </div>
 </footer>

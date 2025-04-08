@@ -4,6 +4,7 @@ import { collectionDateSort } from "@/utils/date";
 import { getAllPosts } from "@/data/post";
 
 import Masthead from "@/components/blog/Masthead.astro";
+import BackToTop from "@/components/BackToTop.astro";
 import TOC from "@/components/blog/TOC.astro";
 
 import PostNavigation from "@/components/PostNavigation.astro";
@@ -46,6 +47,7 @@ function getPrevPost() {
 
 const nextPost = getNextPost();
 const prevPost = getPrevPost();
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <BaseLayout
@@ -57,34 +59,30 @@ const prevPost = getPrevPost();
 	}}
 >
 	<article class="grow break-words" data-pagefind-body>
-		<div id="blog-hero" class="mb-12"><Masthead content={post} readingTime={readingTime} /></div>
+		<div id="blog-hero" class="mb-6"><Masthead content={post} readingTime={readingTime} /></div>
 		<div class="flex flex-col gap-10">
 			{!!headings.length && <TOC headings={headings} />}
 			<div
-				class="prose prose-headings:font-semibold prose-headings:before:absolute prose-headings:before:-ms-5 prose-headings:hover:before:text-muted-foreground sm:prose-th:before:content-none prose-a:text-blue-600 dark:prose-a:text-blue-400 marker:text-foreground"
+				class="prose dark:prose-invert prose-quoteless prose-headings:font-semibold prose-headings:before:absolute prose-headings:before:-ms-5 prose-headings:hover:before:text-muted-foreground sm:prose-th:before:content-none prose-a:text-indigo-600 dark:prose-a:text-indigo-400"
 			>
 				<slot />
 			</div>
 		</div>
 	</article>
-
-<div class="max-w-screen-sm mx-auto flex items-end justify-end mt-10 z-90">
-    <button id="to-top-btn"
-      data-show="true"
-      class="relative group w-fit flex pl-8 pr-3 py-1.5 flex-nowrap rounded-md text-foreground/80 hover:text-foreground border border-border bg-background hover:bg-accent opacity-0 transition-all transition-discrete duration-300 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 ease-in-out z-50">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        class="absolute top-1/2 left-2 -translate-y-1/2 size-4 stroke-2 fill-none stroke-current rotate-90">
-        <line x1="5" y1="12" x2="19" y2="12" class="translate-x-2 group-hover:translate-x-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out" />
-        <polyline points="12 5 5 12 12 19" class="translate-x-1 group-hover:translate-x-0 transition-transform duration-300 ease-in-out" />
-      </svg>
-      <div class="text-sm">
-        Back to top
-      </div>
-    </button>
-  </div>
+  <BackToTop />
   <PostNavigation prevPost={prevPost} nextPost={nextPost} />
+  <hr />
+  <br />
+  <br />
+  <div class="prose dark:prose-invert">
+    If you like this kind of content you can help me
+    <a
+      target="_blank"
+      href={`https://x.com/intent/tweet?text=${title + '%0Aby @hudamnhd'}&url=${canonicalURL}`}
+    >
+      sharing this post on X</a
+    >. Thank you!
+  </div>
 </BaseLayout>
 
 <script>

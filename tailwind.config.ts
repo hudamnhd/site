@@ -15,9 +15,15 @@ export default {
 								},
 							},
 						},
-						blockquote: {
-							borderLeftWidth: "0",
-						},
+            'h1 a': {
+              'text-decoration': 'none'
+            },
+            'h2 a': {
+              'text-decoration': 'none'
+            },
+            blockquote: {
+              'font-style': 'normal'
+            },
 						code: {
 							border: "1px dotted #666",
 							borderRadius: "2px",
@@ -74,6 +80,12 @@ export default {
 						},
 					},
 				},
+        quoteless: {
+          css: {
+            'blockquote p:first-of-type::before': { content: 'none' },
+            'blockquote p:first-of-type::after': { content: 'none' }
+          }
+        },
 				sm: {
 					css: {
 						code: {

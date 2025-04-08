@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import FormattedDate from "@/components/FormattedDate.astro";
+import BackToTop from "@/components/BackToTop.astro";
 import PageLayout from "@/layouts/Base.astro";
 import TOC from "@/components/blog/TOC.astro";
 import { type CollectionEntry, getCollection, render } from "astro:content";
@@ -35,13 +36,10 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 <PageLayout meta={meta}>
 
   <article class="grow break-words" data-pagefind-body>
-    <div id="blog-hero" class="mb-12">
-      <h1 class="title">
-        {project.data.title}
-      </h1>
-      <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-        <p class="font-semibold text-foreground/80">
-        <FormattedDate date={project.data.date} dateTimeOptions={dateTimeOptions} /> /{" "}
+    <div id="blog-hero" class="mb-6">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-2 prose dark:prose-invert prose-sm mb-1">
+        <p class="font-medium">
+          <FormattedDate date={project.data.date} dateTimeOptions={dateTimeOptions} /> &bull; {" "}
           {readingTime}
         </p>
         {
@@ -53,6 +51,47 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
           )
         }
       </div>
+      <h1 class="title">
+        {project.data.title}
+      </h1>
+      <p class="prose dark:prose-invert">
+        {project.data.description}
+      </p>
+
+      {(project.data.demoURL || project.data.repoURL) && (
+        <nav class="flex items-center gap-2 mt-2 text-sm">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-4 h-4"
+          >
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+          </svg>
+          {project.data.demoURL && (
+            <a target="_blank" href={project.data.demoURL} class="underline decoration-dotted underline-offset-[6px] decoration-[2px] hover:opacity-80">
+              demo
+            </a>
+          )}
+          {project.data.demoURL && project.data.repoURL && (
+            <span>/</span>
+          )}
+          {project.data.repoURL && (
+          <a
+            target="_blank"
+            href={project.data.repoURL}
+            class="underline decoration-dotted underline-offset-[6px] decoration-[2px] hover:opacity-80"
+            >
+              repo
+            </a>
+          )}
+        </nav>
+      )}
     </div>
     <div class="flex flex-col gap-10">
       {!!headings.length && <TOC headings={headings} />}
@@ -63,22 +102,15 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
       </div>
     </div>
   </article>
-      {(project.data.demoURL || project.data.repoURL) && (
-        <nav class="animate flex gap-1 hidden">
-          {project.data.demoURL && (
-            <a href={project.data.demoURL} external>
-              demo
-            </a>
-          )}
-          {project.data.demoURL && project.data.repoURL && (
-            <span>/</span>
-          )}
-          {project.data.repoURL && (
-            <a href={project.data.repoURL} external>
-              repo
-            </a>
-          )}
-        </nav>
-      )}
-
+  <br />
+  <BackToTop />
+  <br />
+  <hr />
 </PageLayout>
+
+<script>
+	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
+	scrollBtn.addEventListener("click", () => {
+		document.documentElement.scrollTo({ behavior: "smooth", top: 0 });
+	});
+</script>

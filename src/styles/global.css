@@ -1,5 +1,6 @@
 /* would like to ignore ./src/pages/og-image/[slug].png.ts */
 @import "tailwindcss";
+
 /* config for tailwindcss-typography plugin */
 @config "../../tailwind.config.ts";
 
@@ -82,7 +83,7 @@
   body {
     @apply bg-background text-foreground;
 		font-family: "Inter", sans-serif;
-		font-weight: 400;
+    font-weight: 100 900;
   }
 	html {
 		color-scheme: light dark;
@@ -105,7 +106,7 @@
 	}
 
 	.title {
-		@apply text-2xl font-semibold;
+		@apply text-3xl font-medium tracking-tighter md:text-4xl;
 	}
 
   article h1:not(.title),
@@ -188,18 +189,10 @@
 	}
 }
 
-@utility prose {
-	--tw-prose-body: var(--foreground);
-	--tw-prose-bold: var(--foreground);
-	--tw-prose-bullets: var(--foreground);
-	--tw-prose-code: var(--foreground);
-	--tw-prose-headings: var(--foreground);
-	--tw-prose-hr: 0.5px dashed #666;
-	--tw-prose-links: var(--foreground);
-	--tw-prose-quotes: var(--foreground);
-	--tw-prose-th-borders: #666;
-}
-
 mark {
   @apply bg-lime-400 text-black px-1.5 py-0.5 rounded-md
+}
+
+.toc-level {
+  padding-bottom: 6px;
 }
