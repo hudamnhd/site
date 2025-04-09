@@ -8,12 +8,12 @@ type Props = {
 const { entry } = Astro.props;
 ---
 
-<a data-astro-prefetch href={`/${entry.collection}/${entry.id}`} class="relative group flex flex-nowrap py-3 px-4 pr-10 rounded-lg border border-border hover:bg-accent transition-colors duration-300 ease-in-out">
+<a data-astro-prefetch href={`/${entry.collection}/${entry.id}`} class="relative group flex flex-nowrap py-3 px-4 pr-10 rounded-lg border border-border hover:bg-accent/70 transition-colors duration-300 ease-in-out">
   <div class="flex flex-col flex-1 truncate">
-    <div class="font-semibold">
+    <div class="font-semibold leading-tight tracking-tight">
       {entry.data.title}
     </div>
-    <div class="text-sm group-hover:text-foreground text-foreground/80">
+    <div class="group-hover:text-foreground text-foreground/80 text-sm">
       {entry.data.description}
     </div>
   </div>

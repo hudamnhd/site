@@ -2,10 +2,15 @@
 import { type CollectionEntry, getCollection, render} from "astro:content";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import Note from "@/components/note/Note.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
 import { getAllPosts } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import ArrowCard from "@/components/ArrowCard.astro";
 import { dateRange, collectionDateSort } from "@/utils/date";
+
+const dateTimeOptions: Intl.DateTimeFormatOptions = {
+	month: "short",
+};
 
 // Posts
 const MAX_POSTS = 5;
@@ -49,12 +54,12 @@ const work = await Promise.all(
         See all posts
       </a>
     </div>
-		<ul class="divide-y" role="list">
+		<ul role="list" class="divide-y">
 			{
 				allPostsByDate.map((p) => (
-          <li>
-						<PostPreview post={p} />
-					</li>
+								<li>
+									<PostPreview post={p} />
+								</li>
 				))
 			}
 		</ul>
@@ -69,7 +74,7 @@ const work = await Promise.all(
       </div>
       <ul class="flex flex-col gap-y-5">
         {work.map(entry => (
-          <li class="prose text-foreground dark:prose-invert">
+          <li>
             <div class="text-sm opacity-75">
               {dateRange(entry.data.dateStart, entry.data.dateEnd)}
             </div>
@@ -79,7 +84,7 @@ const work = await Promise.all(
             <div class="text-sm opacity-75 font-medium">
               {entry.data.role}
             </div>
-            <article class="prose dark:prose-invert mt-4">
+            <article class="text-foreground/80 leading-7 mt-4">
               <entry.Content />
             </article>
           </li>
