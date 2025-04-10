@@ -1,6 +1,6 @@
 ---
 title: "Boldo Landing Page"
-description: "Simple landing page built with react router"
+description: "Simple landing page built with react router."
 date: "May 22 2023"
 demoURL: "https://boldo-page.netlify.app"
 repoURL: "https://github.com/hudamnhd/landing-page-boldo"

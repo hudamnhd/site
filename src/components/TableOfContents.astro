@@ -1,0 +1,35 @@
+---
+import TableOfContentsHeading from "./TableOfContentsHeading.astro";
+
+// https://kld.dev/building-table-of-contents/
+const { headings } = Astro.props;
+const toc = buildToc(headings);
+
+export interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+function buildToc(headings: Heading[]) {
+  const toc: Heading[] = [];
+  const parentHeadings = new Map();
+  headings.forEach((h) => {
+    const heading = { ...h, subheadings: [] };
+    parentHeadings.set(heading.depth, heading);
+    if (heading.depth === 2) {
+      toc.push(heading);
+    } else {
+      parentHeadings.get(heading.depth - 1).subheadings.push(heading);
+    }
+  });
+  return toc;
+}
+---
+
+<div class="py-4 border-y">
+  <p class="font-medium tracking-tight mb-2 mt-0">Table of Contents:</p>
+  <ol class="my-0!">
+      {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
+  </ol>
+</div>

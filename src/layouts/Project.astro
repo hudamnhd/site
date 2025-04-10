@@ -1,0 +1,125 @@
+---
+import FormattedDate from "../components/FormattedDate.astro";
+import BackToPrev from "../components/BackToPrev.astro";
+import Base from "../layouts/Base.astro";
+import { readingTime } from "../lib/utils";
+
+const { data, body } = Astro.props;
+const { title, description, date } = data;
+---
+
+<Base title={title} description={description}>
+  <article class="content">
+    <div>
+      <BackToPrev href="/">
+        Back
+      </BackToPrev>
+      <div class="space-y-1 mb-6 mt-10">
+        <h1 class="my-0!">
+          {title}
+        </h1>
+        <p class="my-0">
+          {description}
+        </p>
+        <div class="flex items-center flex-wrap gap-1 font-medium tracking-tight not-prose text-sm sm:text-base">
+          <p class="flex items-center gap-1.5 my-0">
+            <FormattedDate date={date} />
+          </p>
+          /
+          <p class="flex items-center gap-2 my-0">
+            <span>{readingTime(body)}</span>
+          </p>
+        </div>
+      {(data.demoURL || data.repoURL) && (
+        <nav class="flex items-center gap-2 mt-2">
+        <div>
+          {data.demoURL && (
+            <a
+              class="no-underline inline-flex items-center justify-center rounded-md border px-1.5 text-xs font-semibold w-fit whitespace-nowrap shrink-0 gap-1 [&amp;>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] [&amp;>svg]:shrink-0 leading-normal border-transparent bg-primary text-primary-foreground [a&amp;]:hover:bg-primary/90"
+              target="_blank" href={data.demoURL}
+              >
+                Preview
+            </a>
+          )}
+          {data.repoURL && (
+            <span
+              class=""
+            >
+              <a
+                class="no-underline inline-flex items-center justify-center rounded-md border px-1.5 text-xs font-semibold w-fit whitespace-nowrap shrink-0 gap-1 [&amp;>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] [&amp;>svg]:shrink-0 leading-normal border-transparent bg-primary text-primary-foreground [a&amp;]:hover:bg-primary/90"
+                target="_blank" href={data.repoURL}
+                >
+                 Repository
+              </a>
+            </span>
+            )}
+        </div>
+        </nav>
+      )}
+      </div>
+      <slot />
+    </div>
+  </article>
+  <script is:inline>
+    function init() {
+      const scrollBtn = document.getElementById("to-top-btn");
+      if (scrollBtn) {
+        scrollBtn.addEventListener("click", () => {
+            document.documentElement.scrollTo({ behavior: "smooth", top: 0 });
+        });
+      }
+
+      async function copyCode(block, button) {
+        const code = block.querySelector("code");
+        const text = code?.innerText || "";
+
+        try {
+          await navigator.clipboard.writeText(text);
+
+          // Visual feedback that the task is completed
+          button.innerHTML = checkMarkImg;
+
+          setTimeout(() => {
+            button.innerHTML = copyImg;
+          }, 700);
+        } catch (error) {
+          console.error("Failed to copy code: ", error);
+        }
+      }
+
+      const copyImg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy-icon lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`
+      const checkMarkImg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-check-icon lucide-check-check"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></svg>`
+      const preBlocks = Array.from(document.querySelectorAll("pre"));
+
+      for (const preBlock of preBlocks) {
+        renderCopyBtn(preBlock);
+      }
+
+      function renderCopyBtn(preBlock) {
+        let wrapper = document.createElement("div");
+        wrapper.style.position = "relative";
+        const copyButton = document.createElement("button");
+
+        copyButton.className = "copy-code";
+        copyButton.setAttribute("aria-label", "Copy code to clipboard");
+        copyButton.setAttribute("title", "Copy code to clipboard");
+        copyButton.innerHTML = copyImg;
+
+        preBlock.setAttribute("tabindex", "0");
+        preBlock.appendChild(copyButton);
+        // wrap codebock with relative parent element
+        preBlock.parentNode.insertBefore(wrapper, preBlock);
+        wrapper.appendChild(preBlock);
+
+        copyButton.addEventListener("click", async () => {
+          await copyCode(preBlock, copyButton);
+        });
+      }
+    }
+
+    document.addEventListener("astro:after-swap", init);
+    init();
+  </script>
+</Base>
+
+

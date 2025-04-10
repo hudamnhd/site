@@ -1,6 +1,6 @@
 ---
-title: "Kiat website built with react and tailwind"
-description: "Aplikasi React JS sederhana untuk sehari-hari"
+title: "Kiat Website"
+description: "Aplikasi React JS sederhana untuk sehari-hari."
 date: "Feb 1 2025"
 demoURL: "https://kiat.netlify.app"
 repoURL: "https://github.com/hudamnhd/kiat"

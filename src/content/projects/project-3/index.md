@@ -1,6 +1,6 @@
 ---
 title: "Twitter Clone"
-description: "Web sederhana meniru antanmuka twitter dengan Tailwind"
+description: "Web sederhana meniru antanmuka twitter dengan Tailwind."
 date: "Sep 3 2023"
 demoURL: "https://xapps-clone.vercel.app"
 repoURL: "https://github.com/hudamnhd/twitter-clone"

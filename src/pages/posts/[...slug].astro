@@ -1,24 +1,55 @@
 ---
-import { render } from "astro:content";
-import { getAllPosts } from "@/data/post";
-import PostLayout from "@/layouts/BlogPost.astro";
-import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import BlogPost from '../../layouts/BlogPost.astro';
+import TableOfContents from "../../components/TableOfContents.astro";
+import BackToTop from "../../components/BackToTop.astro";
+import PostNavigation from '../../components/PostNavigation.astro';
 
-// if you're using an adaptor in SSR mode, getStaticPaths wont work -> https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
-export const getStaticPaths = (async () => {
-	const blogEntries = await getAllPosts();
-	return blogEntries.map((post) => ({
-		params: { slug: post.id },
-		props: { post },
-	}));
-}) satisfies GetStaticPaths;
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }));
+}
+type Props = CollectionEntry<'blog'>;
 
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const post = Astro.props;
+const { Content, headings } = await render(post);
 
-const { post } = Astro.props;
-const { Content } = await render(post);
+const posts = (await getCollection("blog"))
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+function getNextPost() {
+  let postIndex;
+  for (const post of posts) {
+    if (post.id === Astro.params.slug) {
+      postIndex = posts.indexOf(post);
+      return posts[postIndex + 1];
+    }
+  }
+}
+
+function getPrevPost() {
+  let postIndex;
+  for (const post of posts) {
+    if (post.id === Astro.params.slug) {
+      postIndex = posts.indexOf(post);
+      return posts[postIndex - 1];
+    }
+  }
+}
+
+const nextPost = getNextPost();
+const prevPost = getPrevPost();
 ---
 
-<PostLayout post={post}>
-	<Content />
-</PostLayout>
+<BlogPost {...post}>
+  {headings.length > 0 && <TableOfContents headings={headings} />}
+  <Content />
+  <br/>
+  <BackToTop />
+  <br/>
+  <br/>
+  <PostNavigation prevPost={prevPost} nextPost={nextPost} />
+</BlogPost>

@@ -1,5 +1,5 @@
-<theme-toggle class="">
-	<button title="change theme" class="relative size-9 cursor-pointer rounded-md hover:bg-accent" type="button">
+<theme-toggle class="flex items-center justify-center">
+	<button title="change theme" class="relative size-9 cursor-pointer rounded-md hover:bg-accent text-foreground" type="button">
 		<span class="sr-only">Dark Theme</span>
 		<svg
 			aria-hidden="true"
@@ -58,7 +58,7 @@
 
 <script>
 	// Note that if you fire the theme-change event outside of this component, it will not be reflected in the button's aria-checked attribute. You will need to add an event listener if you want that.
-	import { rootInDarkMode } from "@/utils/domElement";
+  import { rootInDarkMode } from "@/lib/utils";
 
 	class ThemeToggle extends HTMLElement {
 		constructor() {

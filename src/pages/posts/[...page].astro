@@ -1,12 +1,11 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import Pagination from "@/components/Paginator.astro";
-import PostPreview from "@/components/blog/PostPreview.astro";
+import PostPreview from "@/components/PostPreview.astro";
 import { getAllPosts, getUniqueTags, groupPostsByYear } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
 import type { GetStaticPaths, Page } from "astro";
-import { Icon } from "astro-icon/components";
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const MAX_POSTS_PER_PAGE = 10;
@@ -20,7 +19,7 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 interface Props {
-	page: Page<CollectionEntry<"post">>;
+	page: Page<CollectionEntry<"blog">>;
 	uniqueTags: string[];
 }
 
@@ -55,7 +54,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 		<h1 class="title">Posts</h1>
 		<a href="/rss.xml" target="_blank">
 			<span class="sr-only">RSS feed</span>
-			<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rss-icon lucide-rss"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
 		</a>
 	</div>
 	<div class="grid gap-y-10">
@@ -103,7 +102,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
               </svg>
             </h2>
             <span class="block sm:text-end">
-              <a class="hover:text-link" href="/tags/">
+              <a class="" href="/tags/">
                 View all <span aria-hidden="true">→</span>
                 <span class="sr-only">blog tags</span>
               </a>
@@ -112,7 +111,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 					<ul class="flex flex-wrap gap-2">
 						{uniqueTags.map((tag) => (
 							<li>
-								<a class="cactus-link flex items-center justify-center" href={`/tags/${tag}/`}>
+								<a class="underline font-medium decoration-sky-500 dark:prose-a:decoration-sky-400 underline-offset-[4px] decoration-wavy inline-block flex items-center justify-center" href={`/tags/${tag}/`}>
 									<span aria-hidden="true">#</span>
 									<span class="sr-only">View all posts with the tag</span>
 									{tag}

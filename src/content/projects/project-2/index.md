@@ -1,6 +1,6 @@
 ---
 title: "FK Store"
-description: "Simple E-commerce built with React and Tailwind"
+description: "Simple E-commerce built with React and Tailwind."
 date: "Jun 13 2023"
 demoURL: "https://fkstore.netlify.app"
 repoURL: "https://github.com/hudamnhd/web-ecommerce"

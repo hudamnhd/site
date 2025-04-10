@@ -2,8 +2,6 @@
 import { getCollection, render } from "astro:content";
 import PageLayout from "@/layouts/Base.astro";
 import { dateRange } from "@/utils/date";
-import { Icon } from "astro-icon/components";
-import { WORK } from "@consts";
 
 const collection = (await getCollection("work"))
   .sort((a, b) => new Date(b.data.dateStart).valueOf() - new Date(a.data.dateStart).valueOf());
@@ -28,24 +26,20 @@ const meta = {
 	</div>
   <div class="space-y-16">
     <ul class="mt-5 mb-16">
-      {
-        work.map(entry => (
-          <li class="prose dark:prose-invert">
-            <div class="text-sm opacity-75">
-              {dateRange(entry.data.dateStart, entry.data.dateEnd)}
-            </div>
-            <div class="font-semibold">
-              {entry.data.company}
-            </div>
-            <div class="text-sm font-medium opacity-75">
-              {entry.data.role}
-            </div>
-            <article>
-               <entry.Content />
-            </article>
-          </li>
-        ))
-      }
+    <ul class="flex flex-col gap-y-5">
+      {work.map((entry) => (
+        <li>
+          <div class="text-sm opacity-75">
+            {dateRange(entry.data.dateStart, entry.data.dateEnd)}
+          </div>
+          <div class="font-medium">{entry.data.company}</div>
+          <div class="text-sm opacity-75 font-medium">{entry.data.role}</div>
+          <article class="text-foreground/80 leading-7 mt-4">
+            <entry.Content />
+          </article>
+        </li>
+      ))}
+    </ul>
     </ul>
   </div>
 </PageLayout>

@@ -16,17 +16,18 @@ export function getFormattedDate(
 }
 
 export function collectionDateSort(
-	a: CollectionEntry<"post" | "note">,
-	b: CollectionEntry<"post" | "note">,
+	a: CollectionEntry<"blog" | "note">,
+	b: CollectionEntry<"blog" | "note">,
 ) {
 	return b.data.publishDate.getTime() - a.data.publishDate.getTime();
 }
 
 export function dateRange(startDate: Date, endDate?: Date | string): string {
+  let endMonth;
+  let endYear;
+
   const startMonth = startDate.toLocaleString("default", { month: "short" });
   const startYear = startDate.getFullYear().toString();
-  let endMonth:string;
-  let endYear:string;
 
   if (endDate) {
     if (typeof endDate === "string") {

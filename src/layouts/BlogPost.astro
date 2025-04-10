@@ -1,105 +1,143 @@
 ---
-import { type CollectionEntry, render } from "astro:content";
-import { collectionDateSort } from "@/utils/date";
-import { getAllPosts } from "@/data/post";
+import FormattedDate from "../components/FormattedDate.astro";
+import BackToPrev from "../components/BackToPrev.astro";
+import Base from "../layouts/Base.astro";
+import { readingTime } from "../lib/utils";
 
-import Masthead from "@/components/blog/Masthead.astro";
-import BackToTop from "@/components/BackToTop.astro";
-import TOC from "@/components/blog/TOC.astro";
-
-import PostNavigation from "@/components/PostNavigation.astro";
-import BaseLayout from "./Base.astro";
-
-interface Props {
-	post: CollectionEntry<"post">;
-}
-
-const { post } = Astro.props;
-const { ogImage, title, description, updatedDate, publishDate } = post.data;
-const socialImage = ogImage ?? `/og-image/${post.id}.png`;
-const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
-const { headings, remarkPluginFrontmatter } = await render(post);
-const readingTime: string = remarkPluginFrontmatter.readingTime;
-
-const posts = await getAllPosts();
-const allPostsByDate = posts
-	.sort(collectionDateSort)
-
-function getNextPost() {
-  let postIndex: number;
-  for (const post of allPostsByDate) {
-    if (post.id === Astro.props.post.id) {
-      postIndex = allPostsByDate.indexOf(post);
-      return allPostsByDate[postIndex + 1];
-    }
-  }
-}
-
-function getPrevPost() {
-  let postIndex: number;
-  for (const post of allPostsByDate) {
-    if (post.id === Astro.props.post.id) {
-      postIndex = allPostsByDate.indexOf(post);
-      return allPostsByDate[postIndex - 1];
-    }
-  }
-}
-
-const nextPost = getNextPost();
-const prevPost = getPrevPost();
-const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const { data, body } = Astro.props;
+const { title, description, publishDate, ogImage } = data;
+let canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
-<BaseLayout
-	meta={{
-		articleDate,
-		description,
-		ogImage: socialImage,
-		title,
-	}}
->
-	<article class="grow break-words" data-pagefind-body>
-		<div id="blog-hero" class="mb-6"><Masthead content={post} readingTime={readingTime} /></div>
-		<div class="flex flex-col gap-10">
-			{!!headings.length && <TOC headings={headings} />}
-			<div
-				class="prose dark:prose-invert prose-quoteless prose-headings:font-semibold prose-headings:before:absolute prose-headings:before:-ms-5 prose-headings:hover:before:text-muted-foreground sm:prose-th:before:content-none prose-a:text-blue-600 dark:prose-a:text-blue-400"
-			>
-				<slot />
-			</div>
-		</div>
-	</article>
-  <BackToTop />
-  <PostNavigation prevPost={prevPost} nextPost={nextPost} />
-  <hr />
-  <br />
-  <br />
-  <div class="prose dark:prose-invert">
-    If you like this kind of content you can help me
-    <a
-      target="_blank"
-      href={`https://x.com/intent/tweet?text=${title + '%0Aby @hudamnhd'}&url=${canonicalURL}`}
-    >
-      sharing this post on X</a
-    >. Thank you!
-  </div>
-</BaseLayout>
+<Base title={title} description={description} ogImage={ogImage}>
+  <BackToPrev href="/">
+    Back
+  </BackToPrev>
+  <article class="content">
+    <div>
+      <div class="space-y-1 mb-6 mt-10">
+        <h1 class="my-0!">
+          {title}
+        </h1>
+        <p class="my-0">
+          {description}
+        </p>
+        <div class="flex items-center flex-wrap gap-1 font-medium tracking-tight not-prose text-sm sm:text-base">
+          <p class="flex items-center gap-1.5 my-0">
+            <FormattedDate date={publishDate} />
+          </p>
+          /
+          <p class="flex items-center gap-2 my-0">
+            <span>{readingTime(body)}</span>
+          </p>
+        </div>
 
-<script>
-	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
-	// const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
-	//
-	// function callback(entries: IntersectionObserverEntry[]) {
-	// 	entries.forEach((entry) => {
-	// 		// only show the scroll to top button when the heading is out of view
-	// 		scrollBtn.dataset.show = (!entry.isIntersecting).toString();
-	// 	});
-	// }
+        {
+            !!data.tags?.length && (
+                <div class="">
+                    <svg
+                        aria-hidden="true"
+                        class="inline-block h-6 w-6"
+                        fill="none"
+                        focusable="false"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+                        <path d="M7.859 6h-2.834a2.025 2.025 0 0 0 -2.025 2.025v2.834c0 .537 .213 1.052 .593 1.432l6.116 6.116a2.025 2.025 0 0 0 2.864 0l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-6.117 -6.116a2.025 2.025 0 0 0 -1.431 -.593z" />
+                        <path d="M17.573 18.407l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-7.117 -7.116" />
+                        <path d="M6 9h-.01" />
+                    </svg>
+                    {data.tags.map((tag:string, i:number) => (
+                        <>
+                            {/* prettier-ignore */}
+                            <span class="">
+                    <a class="text-sm  inline-block before:content-['#']" data-pagefind-filter={`tag:${tag}`} href={`/tags/${tag}/`}><span class="sr-only">View more blogs with the tag&nbsp;</span>{tag}
+                                </a>{i < data.tags.length - 1 && ", "}
+                            </span>
+                        </>
+                    ))}
+                </div>
+            )
+        }
+      </div>
+      <slot />
+      <br />
+      <div class="border-t py-6">
+        <p>If you like this kind of content you can help me
+        <a
+          target="_blank"
+          href={`https://x.com/intent/tweet?text=${title + '%0Aby @hudamnhd'}&url=${canonicalURL}`}
+        >
+          sharing this post on X</a
+        >. Thank you!</p>
+      </div>
+    </div>
+  </article>
+  <script is:inline>
+    function init() {
+      const scrollBtn = document.getElementById("to-top-btn");
+      if (scrollBtn) {
+        scrollBtn.addEventListener("click", () => {
+            document.documentElement.scrollTo({ behavior: "smooth", top: 0 });
+        });
+      }
 
-	scrollBtn.addEventListener("click", () => {
-		document.documentElement.scrollTo({ behavior: "smooth", top: 0 });
-	});
+      async function copyCode(block, button) {
+        const code = block.querySelector("code");
+        const text = code?.innerText || "";
 
-	// const observer = new IntersectionObserver(callback);
-	// observer.observe(targetHeader);
-</script>
+        try {
+          await navigator.clipboard.writeText(text);
+
+          // Visual feedback that the task is completed
+          button.innerHTML = checkMarkImg;
+
+          setTimeout(() => {
+            button.innerHTML = copyImg;
+          }, 700);
+        } catch (error) {
+          console.error("Failed to copy code: ", error);
+        }
+      }
+
+      const copyImg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy-icon lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`
+      const checkMarkImg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-check-icon lucide-check-check"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></svg>`
+      const preBlocks = Array.from(document.querySelectorAll("pre"));
+
+      for (const preBlock of preBlocks) {
+        renderCopyBtn(preBlock);
+      }
+
+      function renderCopyBtn(preBlock) {
+        let wrapper = document.createElement("div");
+        wrapper.style.position = "relative";
+        const copyButton = document.createElement("button");
+
+        copyButton.className = "copy-code";
+        copyButton.setAttribute("aria-label", "Copy code to clipboard");
+        copyButton.setAttribute("title", "Copy code to clipboard");
+        copyButton.innerHTML = copyImg;
+
+        preBlock.setAttribute("tabindex", "0");
+        preBlock.appendChild(copyButton);
+        // wrap codebock with relative parent element
+        preBlock.parentNode.insertBefore(wrapper, preBlock);
+        wrapper.appendChild(preBlock);
+
+        copyButton.addEventListener("click", async () => {
+          await copyCode(preBlock, copyButton);
+        });
+      }
+    }
+
+    document.addEventListener("astro:after-swap", init);
+    init();
+  </script>
+</Base>
+
+

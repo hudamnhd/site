@@ -1,23 +1,18 @@
 ---
-import { type CollectionEntry, getCollection, render} from "astro:content";
-import PostPreview from "@/components/blog/PostPreview.astro";
-import Note from "@/components/note/Note.astro";
-import FormattedDate from "@/components/FormattedDate.astro";
+import Base from '../layouts/Base.astro';
 import { getAllPosts } from "@/data/post";
-import PageLayout from "@/layouts/Base.astro";
+import { type CollectionEntry, getCollection, render} from "astro:content";
+import PostPreview from "@/components/PostPreview.astro";
 import ArrowCard from "@/components/ArrowCard.astro";
+import Note from "@/components/note/Note.astro";
+
 import { dateRange, collectionDateSort } from "@/utils/date";
 
-const dateTimeOptions: Intl.DateTimeFormatOptions = {
-	month: "short",
-};
-
-// Posts
 const MAX_POSTS = 5;
 const allPosts = await getAllPosts();
 const allPostsByDate = allPosts
 	.sort(collectionDateSort)
-	.slice(0, MAX_POSTS) as CollectionEntry<"post">[];
+	.slice(0, MAX_POSTS) as CollectionEntry<"blog">[];
 
 // Notes
 const MAX_NOTES = 5;
@@ -41,96 +36,91 @@ const work = await Promise.all(
 );
 ---
 
-<PageLayout meta={{ title: "Home" }}>
-	<section>
-		<p class="mb-4 prose dark:prose-invert">
-      I'm <strong>Huda</strong>, a highly skilled front-end developer with two years of experience, specializing in web development. A proven track record of developing exceptional UI and translating wireframes into high-quality, responsive code.
-		</p>
-	</section>
-	<section class="mt-16">
+<Base>
+  <section>
+    <p class="mb-4 prose dark:prose-invert">
+      I'm <strong>Huda</strong>, a highly skilled front-end developer with two years of
+      experience, specializing in web development. A proven track record of developing
+      exceptional UI and translating wireframes into high-quality, responsive code.
+    </p>
+  </section>
+  <section class="mt-16">
     <div class="flex flex-wrap gap-y-2 items-center justify-between mb-4">
       <h2 class="title text-xl">Posts</h2>
       <a href="/posts" class="text-foreground/80 hover:text-foreground">
         See all posts
       </a>
     </div>
-		<ul role="list" class="divide-y">
-			{
-				allPostsByDate.map((p) => (
-								<li>
-									<PostPreview post={p} />
-								</li>
-				))
-			}
-		</ul>
-	</section>
+    <ul role="list" class="divide-y">
+      {allPostsByDate.map((p) => (
+        <li>
+          <PostPreview post={p} />
+        </li>
+      ))}
+    </ul>
+  </section>
 
-    <section class="mt-16 space-y-6">
-      <div class="flex flex-wrap gap-y-2 items-center justify-between">
-        <h2 class="title text-xl">Work Experience</h2>
-        <a href="/work" class="text-foreground/80 hover:text-foreground">
-          See all work
-        </a>
-      </div>
-      <ul class="flex flex-col gap-y-5">
-        {work.map(entry => (
+  <section class="mt-16 space-y-6">
+    <div class="flex flex-wrap gap-y-2 items-center justify-between">
+      <h2 class="title text-xl">Work Experience</h2>
+      <a href="/work" class="text-foreground/80 hover:text-foreground">
+        See all work
+      </a>
+    </div>
+    <ul class="flex flex-col gap-y-5">
+      {work.map((entry) => (
+        <li>
+          <div class="text-sm opacity-75">
+            {dateRange(entry.data.dateStart, entry.data.dateEnd)}
+          </div>
+          <div class="font-medium">{entry.data.company}</div>
+          <div class="text-sm opacity-75 font-medium">{entry.data.role}</div>
+          <article class="text-foreground/80 leading-7 mt-4">
+            <entry.Content />
+          </article>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="mt-16 space-y-6">
+    <div class="flex flex-wrap gap-y-2 items-center justify-between">
+      <h2 class="title text-xl">Recent projects</h2>
+      <a href="/projects" class="text-foreground/80 hover:text-foreground">
+        See all projects
+      </a>
+    </div>
+    <ul class="flex flex-col gap-2">
+      {projects.map((project) => (
+        <li>
+          <ArrowCard entry={project} />
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  {latestNotes.length > 0 && (
+    <section class="mt-16">
+      <h2 class="title mb-6 text-xl">
+        <a href="/notes/">Notes</a>
+      </h2>
+      <ul class="space-y-4" role="list">
+        {latestNotes.map((note) => (
           <li>
-            <div class="text-sm opacity-75">
-              {dateRange(entry.data.dateStart, entry.data.dateEnd)}
-            </div>
-            <div class="font-semibold">
-              {entry.data.company}
-            </div>
-            <div class="text-sm opacity-75 font-medium">
-              {entry.data.role}
-            </div>
-            <article class="text-foreground/80 leading-7 mt-4">
-              <entry.Content />
-            </article>
+            <Note note={note} as="h3" isPreview />
           </li>
         ))}
       </ul>
     </section>
+  )}
 
-    <section class="mt-16 space-y-6">
-      <div class="flex flex-wrap gap-y-2 items-center justify-between">
-        <h2 class="title text-xl">Recent projects</h2>
-        <a href="/projects" class="text-foreground/80 hover:text-foreground">
-          See all projects
-        </a>
-      </div>
-      <ul class="flex flex-col gap-4">
-        {projects.map(project => (
-          <li>
-            <ArrowCard entry={project} />
-          </li>
-        ))}
-      </ul>
-    </section>
-
-    <section class="mt-16 space-y-4">
-      <h2 class="title text-xl">Let's Connect</h2>
-      <article class="prose dark:prose-invert">
-        <p>
-          If you want to get in touch with me about something or just to say hi,
-          reach out on social media or send me an email.
-        </p>
-      </article>
-    </section>
-	<!--{
-		latestNotes.length > 0 && (
-			<section class="mt-16">
-				<h2 class="title mb-6 text-xl">
-					<a href="/notes/">Notes</a>
-				</h2>
-				<ul class="space-y-4" role="list">
-					{latestNotes.map((note) => (
-						<li>
-							<Note note={note} as="h3" isPreview />
-						</li>
-					))}
-				</ul>
-			</section>
-		)
-	}-->
-</PageLayout>
+  <section class="mt-16 space-y-4">
+    <h2 class="title text-xl">Let's Connect</h2>
+    <article class="prose dark:prose-invert">
+      <p>
+        If you want to get in touch with me about something or just to say hi, reach out on
+        social media or send me an email.
+      </p>
+    </article>
+  </section>
+</Base>

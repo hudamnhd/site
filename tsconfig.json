@@ -1,6 +1,7 @@
 {
-	"extends": "astro/tsconfigs/strictest",
+	"extends": "astro/tsconfigs/strict",
 	"compilerOptions": {
+		"strictNullChecks": true,
 		"baseUrl": ".",
 		"lib": ["es2022", "dom", "dom.iterable"],
 		"paths": {
@@ -8,5 +9,6 @@
 		}
 	},
 	"include": [".astro/types.d.ts", "**/*"],
-	"exclude": ["node_modules", "**/node_modules/*", ".vscode", "dist"]
+	"exclude": ["node_modules", "**/node_modules/*", "dist"]
 }
+
