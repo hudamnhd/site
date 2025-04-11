@@ -38,7 +38,7 @@ const work = await Promise.all(
 
 <Base>
   <section>
-    <p class="mb-4 prose dark:prose-invert">
+    <p class="mb-4 content">
       I'm <strong>Huda</strong>, a highly skilled front-end developer with two years of
       experience, specializing in web development. A proven track record of developing
       exceptional UI and translating wireframes into high-quality, responsive code.
@@ -51,7 +51,7 @@ const work = await Promise.all(
         See all posts
       </a>
     </div>
-    <ul role="list" class="divide-y">
+    <ul role="list">
       {allPostsByDate.map((p) => (
         <li>
           <PostPreview post={p} />
@@ -116,7 +116,7 @@ const work = await Promise.all(
 
   <section class="mt-16 space-y-4">
     <h2 class="title text-xl">Let's Connect</h2>
-    <article class="prose dark:prose-invert">
+    <article class="content">
       <p>
         If you want to get in touch with me about something or just to say hi, reach out on
         social media or send me an email.

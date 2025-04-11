@@ -1,5 +1,6 @@
 ---
 import FormattedDate from "../components/FormattedDate.astro";
+import BackToTop from "@/components/BackToTop.astro";
 import BackToPrev from "../components/BackToPrev.astro";
 import Base from "../layouts/Base.astro";
 import { readingTime } from "../lib/utils";
@@ -11,55 +12,31 @@ const { title, description, date } = data;
 <Base title={title} description={description}>
   <article class="content">
     <div>
-      <BackToPrev href="/">
-        Back
-      </BackToPrev>
-      <div class="space-y-1 mb-6 mt-10">
-        <h1 class="my-0!">
-          {title}
-        </h1>
-        <p class="my-0">
-          {description}
-        </p>
-        <div class="flex items-center flex-wrap gap-1 font-medium tracking-tight not-prose text-sm sm:text-base">
-          <p class="flex items-center gap-1.5 my-0">
+      <div class="pb-2.5 border-b">
+        <div class="flex items-center gap-2">
+          <p class="my-0 text-sm">
             <FormattedDate date={date} />
           </p>
-          /
-          <p class="flex items-center gap-2 my-0">
-            <span>{readingTime(body)}</span>
+          <span>/</span>
+          <p class="my-0 text-sm">
+            {readingTime(body)}
           </p>
         </div>
-      {(data.demoURL || data.repoURL) && (
-        <nav class="flex items-center gap-2 mt-2">
-        <div>
-          {data.demoURL && (
-            <a
-              class="no-underline inline-flex items-center justify-center rounded-md border px-1.5 text-xs font-semibold w-fit whitespace-nowrap shrink-0 gap-1 [&amp;>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] [&amp;>svg]:shrink-0 leading-normal border-transparent bg-primary text-primary-foreground [a&amp;]:hover:bg-primary/90"
-              target="_blank" href={data.demoURL}
-              >
-                Preview
-            </a>
-          )}
-          {data.repoURL && (
-            <span
-              class=""
-            >
-              <a
-                class="no-underline inline-flex items-center justify-center rounded-md border px-1.5 text-xs font-semibold w-fit whitespace-nowrap shrink-0 gap-1 [&amp;>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] [&amp;>svg]:shrink-0 leading-normal border-transparent bg-primary text-primary-foreground [a&amp;]:hover:bg-primary/90"
-                target="_blank" href={data.repoURL}
-                >
-                 Repository
-              </a>
-            </span>
-            )}
-        </div>
-        </nav>
-      )}
+        <h1 class="my-1!">
+          {title}
+        </h1>
+        <p class="my-1">
+          {description}
+        </p>
       </div>
       <slot />
     </div>
   </article>
+  <BackToTop />
+  <br />
+  <br />
+  <hr />
+  <br />
   <script is:inline>
     function init() {
       const scrollBtn = document.getElementById("to-top-btn");

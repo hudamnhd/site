@@ -1,6 +1,6 @@
 ---
 title: "Kiat Website"
-description: "Aplikasi React JS sederhana untuk sehari-hari."
+description: "Aplikasi React dengan dukungan fitur offline yang memiliki desain sederhana untuk fokus baca quran."
 date: "Feb 1 2025"
 demoURL: "https://kiat.netlify.app"
 repoURL: "https://github.com/hudamnhd/kiat"

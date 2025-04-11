@@ -1,7 +1,6 @@
 ---
 import TableOfContents from "../../components/TableOfContents.astro";
 import BlogPost from '../../layouts/Project.astro';
-import BackToTop from "@/components/BackToTop.astro";
 import { type CollectionEntry, getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
@@ -32,10 +31,6 @@ const { Content } = await render(project);
       </div>
     </div>
   </article>
-  <br />
-  <BackToTop />
-  <br />
-  <hr />
 </BlogPost>
 
 <script>
