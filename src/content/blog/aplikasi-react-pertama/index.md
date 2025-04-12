@@ -1,7 +1,7 @@
 ---
 title: "Aplikasi React Pertama"
 description: "Catatan belajarku ketika membuat todolist pertama kali dengan React js"
-publishDate: "Mar 21 2024"
+date: "Mar 21 2024"
 tags: ["react", "tailwindcss"]
 ---
 

@@ -1,0 +1,95 @@
+---
+import BackToTop from "@components/BackToTop.astro";
+import { type CollectionEntry, getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import TableOfContents from "@components/TableOfContents.astro";
+import ShareLinks from "@components/ShareLinks.astro";
+import Container from "@components/Container.astro";
+import FormattedDate from "@components/FormattedDate.astro";
+import { readingTime } from "@lib/utils";
+import PostNavigation from '@/components/PostNavigation.astro';
+import BackToPrev from "@components/BackToPrev.astro";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("blog"))
+    .filter(post => !post.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+type Props = CollectionEntry<"blog">;
+
+const post = Astro.props;
+let canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const { Content, headings } = await post.render();
+
+const posts = (await getCollection("blog"))
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+
+function getNextPost() {
+  let postIndex;
+  for (const post of posts) {
+    if (post.slug === Astro.params.slug) {
+      postIndex = posts.indexOf(post);
+      return posts[postIndex + 1];
+    }
+  }
+}
+
+function getPrevPost() {
+  let postIndex;
+  for (const post of posts) {
+    if (post.slug === Astro.params.slug) {
+      postIndex = posts.indexOf(post);
+      return posts[postIndex - 1];
+    }
+  }
+}
+
+const nextPost = getNextPost();
+const prevPost = getPrevPost();
+---
+
+<PageLayout title={post.data.title} description={post.data.description}>
+  <Container>
+    <div class="animate">
+      <BackToPrev href="/blog">
+        Back to blog
+      </BackToPrev>
+    </div>
+    <div class="space-y-1 mt-10">
+      <div class="animate flex items-center gap-1.5 text-sm">
+        <div class="">
+          <FormattedDate date={post.data.date} />
+        </div>
+        &bull;
+        <div class="">
+          {readingTime(post.body)}
+        </div>
+      </div>
+      <h1 class="animate text-3xl font-medium tracking-tighter md:text-4xl text-black dark:text-white">
+        {post.data.title}
+      </h1>
+      <p class="animate text-black dark:text-white text-stone-700 dark:text-stone-300">
+        {post.data.description}
+      </p>
+      <hr class="hr my-5">
+    </div>
+    <article class="animate mb-10">
+      {headings.length > 0 && <TableOfContents headings={headings} /> }
+      <Content />
+    </article>
+    <hr class="hr">
+    <div
+      class="flex flex-col items-center justify-between gap-6 sm:flex-row sm:items-end sm:gap-4 border-b border-dashed py-4"
+    >
+      <ShareLinks url={canonicalURL} />
+      <BackToTop />
+    </div>
+    <PostNavigation prevPost={prevPost} nextPost={nextPost} />
+  </Container>
+</PageLayout>
+

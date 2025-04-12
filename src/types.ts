@@ -1,48 +1,18 @@
-export interface SiteConfig {
-	author: string;
-	date: {
-		locale: string | string[] | undefined;
-		options: Intl.DateTimeFormatOptions;
-	};
-	description: string;
-	lang: string;
-	ogLocale: string;
-	title: string;
-	url: string;
-}
+export type Site = {
+  NAME: string;
+  EMAIL: string;
+  AUTHOR: string;
+  NUM_POSTS_ON_HOMEPAGE: number;
+  NUM_WORKS_ON_HOMEPAGE: number;
+  NUM_PROJECTS_ON_HOMEPAGE: number;
+};
 
-export interface PaginationLink {
-	srLabel?: string;
-	text?: string;
-	url: string;
-}
+export type Metadata = {
+  TITLE: string;
+  DESCRIPTION: string;
+};
 
-export interface SiteMeta {
-	articleDate?: string | undefined;
-	description?: string;
-	ogImage?: string | undefined;
-	title: string;
-}
-
-export interface Author {
-	name: string;
-	photo: string;
-	type: string;
-	url: string;
-}
-
-export interface Content {
-	"content-type": string;
-	html: string;
-	text: string;
-	value: string;
-}
-
-export interface Rels {
-	canonical: string;
-}
-
-export interface Summary {
-	"content-type": string;
-	value: string;
-}
+export type Socials = {
+  NAME: string;
+  HREF: string;
+}[];

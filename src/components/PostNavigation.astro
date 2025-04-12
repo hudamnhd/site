@@ -2,11 +2,11 @@
 const { prevPost, nextPost } = Astro.props;
 ---
 
-<div class="flex sm:flex-row flex-col justify-between gap-3 content border-b pb-3">
+<div class="flex sm:flex-row flex-col justify-between gap-3 content py-3 text-sm">
   {
-    prevPost?.id ? (
+    prevPost?.slug ? (
       <a
-        href={`/posts/${prevPost?.id}`}
+        href={`/blog/${prevPost?.slug}`}
         class="group py-3 no-underline transition-colors duration-300 ease-in-out rounded-md w-fit text-foreground/80 hover:text-foreground font-normal"
       >
         <div class="relative flex items-center gap-2">
@@ -37,9 +37,9 @@ const { prevPost, nextPost } = Astro.props;
   }
 
   {
-    nextPost?.id ? (
+    nextPost?.slug ? (
       <a
-        href={`/posts/${nextPost?.id}`}
+        href={`/blog/${nextPost?.slug}`}
         class="ms-auto group py-3 no-underline transition-colors duration-300 ease-in-out rounded-md w-fit text-foreground/80 hover:text-foreground font-normal"
       >
         <div class="relative flex flex-row-reverse items-center gap-2">

@@ -1,8 +1,7 @@
 ---
 title: "Awesome Linux Apps"
 description: "A list of awesome applications for 🐧 Linux distributions."
-publishDate: "Jan 1 2025"
-tags: ["linux"]
+date: "Jan 1 2025"
 ---
 
 ## Audio

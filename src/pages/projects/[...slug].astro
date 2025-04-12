@@ -1,41 +1,77 @@
 ---
-import TableOfContents from "../../components/TableOfContents.astro";
-import BlogPost from '../../layouts/Project.astro';
-import { type CollectionEntry, getCollection, render } from "astro:content";
+import BackToTop from "@components/BackToTop.astro";
+import { type CollectionEntry, getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import Container from "@components/Container.astro";
+import FormattedDate from "@components/FormattedDate.astro";
+import TableOfContents from "@components/TableOfContents.astro";
+import { readingTime } from "@lib/utils";
+import BackToPrev from "@components/BackToPrev.astro";
+import Link from "@components/Link.astro";
 
 export async function getStaticPaths() {
   const projects = (await getCollection("projects"))
     .filter(post => !post.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   return projects.map((project) => ({
-    params: { slug: project.id },
+    params: { slug: project.slug },
     props: project,
   }));
 }
-
 type Props = CollectionEntry<"projects">;
 
 const project = Astro.props;
-const { headings } = await render(project);
-const { Content } = await render(project);
+const { Content, headings } = await project.render();
 ---
 
-<BlogPost {...project}>
-  <article class="grow break-words" data-pagefind-body>
-    <div class="flex flex-col gap-10">
-      {!!headings.length && <TableOfContents headings={headings} />}
-      <div
-        class="content"
-      >
-        <Content />
-      </div>
+<PageLayout title={project.data.title} description={project.data.description}>
+  <Container>
+    <div class="animate">
+      <BackToPrev href="/projects">
+        Back to projects
+      </BackToPrev>
     </div>
-  </article>
-</BlogPost>
-
-<script>
-	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
-	scrollBtn.addEventListener("click", () => {
-		document.documentElement.scrollTo({ behavior: "smooth", top: 0 });
-	});
-</script>
+    <div class="space-y-1 mt-10">
+      <div class="animate flex items-center gap-1.5 text-sm">
+        <div class="">
+          <FormattedDate date={project.data.date} />
+        </div>
+        &bull;
+        <div class="">
+          {readingTime(project.body)}
+        </div>
+      </div>
+      <h1 class="animate text-3xl font-medium tracking-tighter md:text-4xl text-black dark:text-white">
+        {project.data.title}
+      </h1>
+      <p class="animate text-black dark:text-white text-stone-700 dark:text-stone-300">
+        {project.data.description}
+      </p>
+      {(project.data.demoURL || project.data.repoURL) && (
+        <nav class="animate flex gap-1">
+          {project.data.demoURL && (
+            <Link href={project.data.demoURL} external>
+              Preview
+            </Link>
+          )}
+          {project.data.demoURL && project.data.repoURL && (
+            <span>/</span>
+          )}
+          {project.data.repoURL && (
+            <Link href={project.data.repoURL} external>
+              Repository
+            </Link>
+          )}
+        </nav>
+      )}
+      <hr class="hr my-5">
+    </div>
+    <article class="animate">
+      {headings.length > 0 && <TableOfContents headings={headings} /> }
+      <Content />
+    </article>
+    <div class="flex justify-end">
+      <BackToTop />
+    </div>
+  </Container>
+</PageLayout>

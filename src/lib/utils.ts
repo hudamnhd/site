@@ -1,3 +1,10 @@
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
 export function formatDate(date: Date) {
   return Intl.DateTimeFormat("en-US", {
     month: "short",
@@ -30,16 +37,4 @@ export function dateRange(startDate: Date, endDate?: Date | string): string {
   }
 
   return `${startMonth}${startYear} - ${endMonth}${endYear}`;
-}
-
-export function toggleClass(element: HTMLElement, className: string) {
-	element.classList.toggle(className);
-}
-
-export function elementHasClass(element: HTMLElement, className: string) {
-	return element.classList.contains(className);
-}
-
-export function rootInDarkMode() {
-	return document.documentElement.getAttribute("data-theme") === "dark";
 }

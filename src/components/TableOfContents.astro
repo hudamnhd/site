@@ -14,22 +14,23 @@ export interface Heading {
 function buildToc(headings: Heading[]) {
   const toc: Heading[] = [];
   const parentHeadings = new Map();
+
   headings.forEach((h) => {
     const heading = { ...h, subheadings: [] };
     parentHeadings.set(heading.depth, heading);
     if (heading.depth === 2) {
       toc.push(heading);
     } else {
-      parentHeadings.get(heading.depth - 1).subheadings.push(heading);
+      parentHeadings.get(heading.depth - 1)?.subheadings.push(heading);
     }
   });
   return toc;
 }
 ---
 
-<div class="py-4 text-lg border-b content">
-  <p class="font-medium mb-3 mt-0">Table of Contents:</p>
-  <ol class="my-0!">
+<div>
+  <h2 class="font-medium tracking-tight">Table of Contents</h2>
+  <ol class="opacity-90">
       {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
   </ol>
 </div>

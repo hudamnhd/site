@@ -1,7 +1,7 @@
 ---
 title: "A post of Markdown elements"
 description: "This post is for testing and listing a number of different markdown elements"
-publishDate: "Nov 1 2024"
+date: "Nov 1 2024"
 tags: ["tutorial"]
 ---
 
