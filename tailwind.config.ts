@@ -6,6 +6,14 @@
         typography: () => ({
           DEFAULT: {
             css: {
+              a: {
+                  textUnderlineOffset: "2px",
+                  "&:hover": {
+                      "@media (hover: hover)": {
+                          textDecorationThickness: "2px",
+                      },
+                  },
+              },
               "h1 a": {
                 "text-decoration": "none",
               },
@@ -30,17 +38,14 @@
               },
             },
           },
-          stone: {
+          gray: {
             css: {
-            "--tw-prose-headings": "var(--color-stone-700)",
-            "h1": {
-              fontWeight: "600",
-            },
-            "--tw-prose-invert-headings": "var(--color-stone-300)",
-            '--tw-prose-links': "var(--color-stone-800)",
-            '--tw-prose-bold': "var(--color-stone-800)",
-            '--tw-prose-invert-links': "var(--color-stone-200)",
-            '--tw-prose-invert-bold': "var(--color-stone-200)",
+            "--tw-prose-headings": "var(--color-gray-700)",
+            "--tw-prose-invert-headings": "var(--color-gray-300)",
+            '--tw-prose-links': "var(--color-gray-800)",
+            '--tw-prose-bold': "var(--color-gray-800)",
+            '--tw-prose-invert-links': "var(--color-gray-200)",
+            '--tw-prose-invert-bold': "var(--color-gray-200)",
             },
           },
           quoteless: {

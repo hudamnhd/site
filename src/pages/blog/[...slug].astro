@@ -73,16 +73,16 @@ const prevPost = getPrevPost();
       <h1 class="animate text-3xl font-medium tracking-tighter md:text-4xl text-black dark:text-white">
         {post.data.title}
       </h1>
-      <p class="animate text-black dark:text-white text-stone-700 dark:text-stone-300">
+      <p class="animate text-black dark:text-white text-gray-700 dark:text-gray-300">
         {post.data.description}
       </p>
-      <hr class="hr my-5">
+    <div class="hr my-5"/>
     </div>
     <article class="animate mb-10">
       {headings.length > 0 && <TableOfContents headings={headings} /> }
       <Content />
     </article>
-    <hr class="hr">
+    <div class="hr" />
     <div
       class="flex flex-col items-center justify-between gap-6 sm:flex-row sm:items-end sm:gap-4 border-b border-dashed py-4"
     >
