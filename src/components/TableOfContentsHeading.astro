@@ -19,3 +19,18 @@ const { heading } = Astro.props;
     )
   }
 </li>
+
+<!--<li class="list-inside list-disc px-6 py-1.5 text-sm">
+  <a href={"#" + heading.slug} class="underline decoration-dotted! underline-offset-[4px] decoration-[2px] decoration-foreground hover:opacity-80">
+    {heading.text}
+  </a>
+  {
+    heading.subheadings.length > 0 && (
+      <ul class="translate-x-3">
+        {heading.subheadings.map((subheading: Heading) => (
+          <Astro.self heading={subheading} />
+        ))}
+      </ul>
+    )
+  }
+</li>-->

@@ -60,7 +60,7 @@ const prevPost = getPrevPost();
         Back to blog
       </BackToPrev>
     </div>
-    <div class="space-y-1 mt-10">
+    <div class="space-y-1 mt-10 mb-5">
       <div class="animate flex items-center gap-1.5 text-sm">
         <div class="">
           <FormattedDate date={post.data.date} />
@@ -76,15 +76,13 @@ const prevPost = getPrevPost();
       <p class="animate text-black dark:text-white text-gray-700 dark:text-gray-300">
         {post.data.description}
       </p>
-    <div class="hr my-5"/>
     </div>
-    <article class="animate mb-10">
+    <article class="animate">
       {headings.length > 0 && <TableOfContents headings={headings} /> }
       <Content />
     </article>
-    <div class="hr" />
     <div
-      class="flex flex-col items-center justify-between gap-6 sm:flex-row sm:items-end sm:gap-4 border-b border-dashed py-4"
+      class="flex flex-col items-center justify-between gap-6 sm:flex-row sm:items-end sm:gap-4 py-4 border-t border-dashed"
     >
       <ShareLinks url={canonicalURL} />
       <BackToTop />

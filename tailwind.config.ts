@@ -38,14 +38,14 @@
               },
             },
           },
-          gray: {
+          neutral: {
             css: {
-            "--tw-prose-headings": "var(--color-gray-700)",
-            "--tw-prose-invert-headings": "var(--color-gray-300)",
-            '--tw-prose-links': "var(--color-gray-800)",
-            '--tw-prose-bold': "var(--color-gray-800)",
-            '--tw-prose-invert-links': "var(--color-gray-200)",
-            '--tw-prose-invert-bold': "var(--color-gray-200)",
+            "--tw-prose-headings": "var(--color-neutral-800)",
+            "--tw-prose-invert-headings": "var(--color-neutral-200)",
+            '--tw-prose-links': "var(--color-neutral-800)",
+            '--tw-prose-bold': "var(--color-neutral-800)",
+            '--tw-prose-invert-links': "var(--color-neutral-200)",
+            '--tw-prose-invert-bold': "var(--color-neutral-200)",
             },
           },
           quoteless: {

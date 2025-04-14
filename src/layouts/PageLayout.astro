@@ -13,15 +13,18 @@ const { title, description } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="">
   <head>
     <Head title={`${title} | ${SITE.NAME}`} description={description} />
   </head>
-  <body>
+  <body class="">
+    <div class="relative flex min-h-svh flex-col">
+      <div data-wrapper="" class="border-grid flex flex-1 flex-col">
     <Header />
-    <main>
+    <main class="">
       <slot />
     </main>
     <Footer />
+      </div></div>
   </body>
 </html>

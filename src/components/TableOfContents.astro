@@ -28,9 +28,26 @@ function buildToc(headings: Heading[]) {
 }
 ---
 
-<div>
-  <h2 class="font-medium tracking-tight">Table of Contents</h2>
-  <ol>
+<div class="">
+  <hr class="my-5!"/>
+  <h3 class="font-medium tracking-tight my-3!">Table of Contents</h3>
+  <ol class="my-0!">
       {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
   </ol>
+  <hr class="my-7!"/>
 </div>
+
+<!--<details
+  open
+  class="animate group rounded-lg border not-prose"
+>
+  <summary
+    class="font-medium tracking-tight cursor-pointer rounded-t-lg px-3 py-1.5 font-medium transition-colors group-open:bg-accent"
+    >Table of Contents</summary
+  >
+  <nav>
+    <ul class="py-3">
+      {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
+    </ul>
+  </nav>
+</details>-->

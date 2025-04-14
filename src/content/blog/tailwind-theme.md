@@ -8,13 +8,17 @@ date: "Mar 1 2025"
 
 Source: [Theme switching based on this tweet from Devon Govett](https://twitter.com/devongovett/status/1757131288144663027)
 
-> This method work with Tailwind CSS V3
+> This method work with Tailwind CSS V4
 
 ## Define theme variables
 ```css title="styles.css"
 /*
   Theme variables
 */
+
+@import "tailwindcss";
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @layer base {
 	:root {
 		--background: 0 0% 100%;
@@ -36,11 +40,6 @@ Source: [Theme switching based on this tweet from Devon Govett](https://twitter.
 		--destructive: 0 72.22% 50.59%;
 		--destructive-foreground: 210 20% 98%;
 		--ring: 224 71.4% 4.1%;
-		--chart-1: 20.5 90.2% 48.2%;
-		--chart-2: 174.7 83.9% 31.6%;
-		--chart-3: 200.4 98% 39.4%;
-		--chart-4: 262.1 83.3% 57.8%;
-		--chart-5: 333.3 71.4% 50.6%;
 		--radius: 0.5rem;
 
 		--background-dark: 222.2 84% 4.9%;
@@ -62,11 +61,6 @@ Source: [Theme switching based on this tweet from Devon Govett](https://twitter.
 		--destructive-dark: 0 72.22% 50.59%;
 		--destructive-foreground-dark: 210 20% 98%;
 		--ring-dark: 216 12.2% 83.9%;
-		--chart-1-dark: 24.6 95% 53.1%;
-		--chart-2-dark: 173.4 80.4% 40%;
-		--chart-3-dark: 198.6 88.7% 48.4%;
-		--chart-4-dark: 258.3 89.5% 66.3%;
-		--chart-5-dark: 330.4 81.2% 60.4%;
 
 		--background-sephia: 39.4 69.6% 91%;
 		--foreground-sephia: 222.2 84.00% 4.90%;
@@ -87,11 +81,6 @@ Source: [Theme switching based on this tweet from Devon Govett](https://twitter.
 		--border-sephia: 38, 36%, 78%;
 		--input-sephia: 38, 36%, 78%;
 		--ring-sephia: 38.2 73.3% 2.9%;
-		--chart-1-sephia: 24.6 95% 53.1%;
-		--chart-2-sephia: 173.4 80.4% 40%;
-		--chart-3-sephia: 198.6 88.7% 48.4%;
-		--chart-4-sephia: 258.3 89.5% 66.3%;
-		--chart-5-sephia: 330.4 81.2% 60.4%;
 	}
 }
 
@@ -196,13 +185,6 @@ export const extendedTheme = {
     card: {
       DEFAULT: lightDarkVar("card"),
       foreground: lightDarkVar("card-foreground"),
-    },
-    chart: {
-      1: lightDarkVar("chart-1"),
-      2: lightDarkVar("chart-2"),
-      3: lightDarkVar("chart-3"),
-      4: lightDarkVar("chart-4"),
-      5: lightDarkVar("chart-5"),
     },
   },
   borderColor: {
